@@ -1,0 +1,45 @@
+{
+  "name": "graphql-fullstack",
+  "homepage": "graphql-fullstack.now.sh",
+  "author": {
+    "name": "Kunal Shah",
+    "email": "me@kunal.sh"
+  },
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "PORT=3000 NODE_ENV=development next",
+    "build": "next build",
+    "now-build": "next build",
+    "start": "next start",
+    "generate": "prisma2 generate",
+    "postinstall": "yarn generate",
+    "lift:save": "prisma2 lift save",
+    "lift:up": "prisma2 lift up"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.0",
+    "@apollo/react-ssr": "^3.1.0",
+    "@material-ui/core": "^4.4.1",
+    "@material-ui/icons": "^4.2.1",
+    "apollo-boost": "^0.4.4",
+    "apollo-link-context": "^1.0.19",
+    "apollo-server-micro": "2.6.7",
+    "bcryptjs": "^2.4.3",
+    "cookie": "^0.4.0",
+    "graphql": "14.4.2",
+    "graphql-tag": "^2.10.1",
+    "isomorphic-unfetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "next": "latest",
+    "prisma2": "^2.0.0-preview016.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "recharts": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.2",
+    "tslint": "^5.19.0",
+    "typescript": "^3.6.2"
+  }
+}
