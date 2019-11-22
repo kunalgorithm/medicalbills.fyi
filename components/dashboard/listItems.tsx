@@ -13,25 +13,25 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import Link from "next/link";
 const links = [
   {
-    title: "Splash Page",
-    href: "/",
-    icon: <LayersIcon />,
+    title: "Submit a Record",
+    href: "/submit",
+    icon: <LayersIcon />
   },
   {
     title: "Dashboard",
     href: "/app",
-    icon: <DashboardIcon />,
+    icon: <DashboardIcon />
   },
   {
     title: "Log In",
     href: "/login",
-    icon: <PeopleIcon />,
+    icon: <PeopleIcon />
   },
   {
     title: "Sign Up",
     href: "/signup",
-    icon: <AssignmentIcon />,
-  },
+    icon: <AssignmentIcon />
+  }
 ];
 export const mainListItems = (
   <div>

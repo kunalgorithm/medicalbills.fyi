@@ -16,6 +16,7 @@ import Chart from "./Chart";
 import Orders from "./Orders";
 
 import Profile from "./Profile";
+import SearchBar from "./SearchBar";
 import { TopNavBar } from "./TopNavBar";
 import { Copyright } from "./Copyright";
 import { useStyles } from "./useStyles";
@@ -39,9 +40,10 @@ export default function Dashboard() {
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
         }}
-        open={open}>
+        open={open}
+      >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
@@ -54,27 +56,9 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Profile */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Profile />
-              </Paper>
-            </Grid>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid>
+            <SearchBar />
           </Grid>
         </Container>
-        <Copyright />
       </main>
     </div>
   );

@@ -16,11 +16,16 @@ export const typeDefs = gql`
       lastName: String!
     ): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
+    createRecord: Record!
   }
   type User {
     firstName: String
     lastName: String
     email: String
+  }
+  type Record {
+    title: String
+    description: String
   }
   type AuthPayload {
     token: String!
@@ -41,6 +46,9 @@ const resolvers = {
   Mutation: {
     signup,
     login,
+    createRecord(parent, args, context) {
+      return photon.users.create({})
+    }
   },
 };
 
