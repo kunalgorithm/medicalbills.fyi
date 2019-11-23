@@ -6,6 +6,7 @@ const photon = new Photon();
 export const typeDefs = gql`
   type Query {
     users: [User!]!
+    records: [Record!]!
     me: User
   }
   type Mutation {
@@ -16,7 +17,7 @@ export const typeDefs = gql`
       lastName: String!
     ): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
-    createRecord: Record!
+    createRecord(title: String!, description: String!): Record!
   }
   type User {
     firstName: String
@@ -24,6 +25,7 @@ export const typeDefs = gql`
     email: String
   }
   type Record {
+    id: String
     title: String
     description: String
   }
@@ -38,18 +40,23 @@ const resolvers = {
     users(parent, args, context) {
       return photon.users.findMany({});
     },
+    records(parent, args, context) {
+      return photon.records.findMany({});
+    },
     me(parent, args, context) {
       const id = getUserId(context);
       return photon.users.findOne({ where: { id } });
-    },
+    }
   },
   Mutation: {
     signup,
     login,
     createRecord(parent, args, context) {
-      return photon.users.create({})
+      return photon.records.create({
+        data: { title: args.title, description: args.description }
+      });
     }
-  },
+  }
 };
 
 const apolloServer = new ApolloServer({
@@ -57,14 +64,14 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: request => ({
     ...request,
-    photon,
-  }),
+    photon
+  })
 });
 
 export const config = {
   api: {
-    bodyParser: false,
-  },
+    bodyParser: false
+  }
 };
 
 export default apolloServer.createHandler({ path: "/api/graphql" });

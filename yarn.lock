@@ -4548,10 +4548,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-prisma2@^2.0.0-preview016.1:
-  version "2.0.0-preview016.1"
-  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-preview016.1.tgz#6083fe7afd052420d4f9099c9ddd0613defcdf74"
-  integrity sha512-Zp1nRE8OdEQo+EuwEVkXc0JbayFM8lDoTv9BbTdItQ/HMwu1qoQ1/LNqPI8htEXd262F9w03QG5pBGEtgIkWEg==
+prisma2@^2.0.0-preview016.2:
+  version "2.0.0-preview016.2"
+  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-preview016.2.tgz#36f3e9cf8f1e44215df4ab9347033b32563d21d0"
+  integrity sha512-K/xnzfpuAiISUGAkqEAvVXRfMe6DyJWTT0Nk8xaTspc3ymm3nU35PR49DeqX839WMTb5tXLnzyi3hgi+074Jwg==
 
 private@^0.1.6:
   version "0.1.8"

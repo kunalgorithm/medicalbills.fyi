@@ -18,6 +18,7 @@ import theme from "../theme";
 import { loginUser } from "../auth";
 import withApollo from "../apollo/with-apollo";
 import Snackbar from "../Snackbar";
+import Records from "./Records";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -55,7 +56,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-function SignIn() {
+function SearchBar() {
   const classes = useStyles(theme);
 
   const [email, setEmail] = useState("");
@@ -96,20 +97,11 @@ function SignIn() {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Search
-          </Button>
         </form>
       </div>
+      <Records />
     </Container>
   );
 }
 
-export default withApollo(SignIn);
+export default withApollo(SearchBar);

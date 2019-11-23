@@ -46,24 +46,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SIGNUP_MUTATION = gql`
-  mutation Signup(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    signup(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      user {
-        firstName
-        lastName
-        email
-      }
-      token
+  mutation createRecord($title: String!, $description: String!) {
+    createRecord(title: $title, description: $description) {
+      title
+      description
     }
   }
 `;
@@ -72,20 +58,18 @@ function SignUp() {
   const router = useRouter();
   const classes = useStyles(theme);
 
-  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [success, setSucess] = useState(null);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-
-  const [password, setPassword] = useState("");
-
-  const [signupMutation, { loading, error, data, client }] = useMutation(
+  const [createRecord, { loading, error, data, client }] = useMutation(
     SIGNUP_MUTATION
   );
 
   return (
     <Container component="main" maxWidth="xs">
-      {error && <Snackbar message="This doesnt work yet 🙁" />}
+      {error && <Snackbar message={error.message} />}
+      {success && <Snackbar message={success} />}
 
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -100,39 +84,29 @@ function SignUp() {
           onSubmit={e => {
             e.preventDefault();
             e.stopPropagation();
-            signupMutation({
-              variables: { firstName, lastName, email, password }
+            createRecord({
+              variables: { title, description }
             })
-              .then(result => loginUser(result.data.signup.token, client))
+              .then(result => {
+                setTitle("");
+                setDescription("");
+                setSucess("Record Created!");
+              })
               .catch(err => console.error(err));
           }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                value={firstName}
-                onChange={e => setFirstName(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                value={lastName}
-                onChange={e => setLastName(e.target.value)}
+                id="title"
+                label="Title"
+                name="title"
+                autoComplete="title"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -140,26 +114,12 @@ function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                id="description"
+                label="Description"
+                name="description"
+                autoComplete="description"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -171,7 +131,7 @@ function SignUp() {
             color="primary"
             className={classes.submit}
           >
-            Submit
+            Create
           </Button>
         </form>
       </div>
