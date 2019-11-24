@@ -11,6 +11,7 @@
     "dev": "PORT=3000 NODE_ENV=development next",
     "build": "next build",
     "now-build": "next build",
+    "seed": "ts-node seed.ts",
     "start": "next start",
     "generate": "prisma2 generate",
     "postinstall": "yarn generate",

@@ -1,6 +1,7 @@
 import { ApolloServer, gql } from "apollo-server-micro";
 import { Photon } from "@generated/photon";
 import { getUserId, signup, login } from "./util";
+const data = require("../../MEDICARE_CHARGE_INPATIENT_DRGALL_DRG_Summary_FY2017/state_data.json");
 const photon = new Photon();
 
 export const typeDefs = gql`
@@ -38,7 +39,19 @@ export const typeDefs = gql`
 const resolvers = {
   Query: {
     users(parent, args, context) {
-      return photon.users.findMany({});
+      data.forEach(async rec => {
+        await photon.records.create({
+          data: {
+            title: rec.procedure,
+            state: rec.state,
+            totalDischarges: rec.total_discharges,
+            averageCoveredCharges: rec.avg_covered_charges,
+            averageTotalPayments: rec.avg_total_payments,
+            averageMedicarePayments: rec.avg_medicare_payments
+          }
+        });
+      });
+      return [];
     },
     records(parent, args, context) {
       return photon.records.findMany({});
