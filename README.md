@@ -1,11 +1,8 @@
-# GraphQL Fullstack Boilerplate
+# Medicalbills.fyi
 
-A monorepo web application boilerplate with authentication, a graphQL api, database access, and material-ui styling.
-
-Visit the demo at https://graphql-fullstack.now.sh
+This app was bootstrapped from [graphql-fullstack](https://github.com/kunalgorithm/graphql-fullstack), A monorepo web application boilerplate with authentication, a graphQL api, database access, and material-ui styling.
 
 ![Screenshot](static/screenshot.png)
-
 
 # Features
 
@@ -18,7 +15,6 @@ Visit the demo at https://graphql-fullstack.now.sh
 🤖‍‍ Uses prebuilt commonly-used components, including a sidebar, top navigation bar, animated line graph with [Recharts](http://recharts.org/en-US/), and [Material Icons](https://material.io/resources/icons/).
 
 ☁️ [Zero Config Deployments](https://zeit.co/blog/zero-config). It just works 🔥
-
 
 # Quick Start
 
@@ -51,7 +47,6 @@ Then deploy using
 now
 ```
 
-
 # Tech stack
 
 🤖 [Typescript](https://www.typescriptlang.org) - static types, used throughout the client and server (especially handy for the auto-generated prisma2 client).
@@ -66,8 +61,7 @@ now
 
 ▲ [ZEIT now](https://now.sh) - serverless monorepo deployment
 
-
-# Development 
+# Development
 
 ## Create new data types
 
@@ -105,15 +99,16 @@ Note that `?` signals that the field is optional.
 ### Run the database migration using [Lift](https://lift.prisma.io/)
 
 Once you've made the change to `schema.prisma`, you'll need to apply the change to the database:
+
 1. Create the migration by running `prisma2 lift save "Added githubUrl to User"` with an appropriate message.
-2. Run the migration with `prisma2 lift up`. 
+2. Run the migration with `prisma2 lift up`.
 3. Finally, generate a new photon client to accomodate the updated datamodel by running `prisma2 generate`.
 
-### Make it available to the frontend. 
+### Make it available to the frontend.
 
-Now that you've added a new field to your database and made it available to the _server_, you need to make it available to your _client_ by defining it within the graphQL endpoint's type definitions.  
+Now that you've added a new field to your database and made it available to the _server_, you need to make it available to your _client_ by defining it within the graphQL endpoint's type definitions.
 
-Open the API route at `pages/api/graphql.ts` and extend 
+Open the API route at `pages/api/graphql.ts` and extend
 
 ```
 type User {
@@ -121,7 +116,7 @@ type User {
 }
 ```
 
-to 
+to
 
 ```
 type User {

@@ -2,7 +2,7 @@ import {
   ApolloClient,
   InMemoryCache,
   HttpLink,
-  ApolloLink,
+  ApolloLink
 } from "apollo-boost";
 import fetch from "isomorphic-unfetch";
 import { onError } from "apollo-link-error";
@@ -28,8 +28,8 @@ function create(initialState, { getToken }) {
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : "",
-      },
+        authorization: token ? `Bearer ${token}` : ""
+      }
     };
   });
 
@@ -45,13 +45,13 @@ function create(initialState, { getToken }) {
         uri:
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000/api/graphql"
-            : `https://graphql-fullstack.now.sh/api/graphql`, // Server URL (must be absolute)
+            : `https://medicalbills.fyi/api/graphql`, // Server URL (must be absolute)
         credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
         // Use fetch() polyfill on the server
-        fetch: !isBrowser && fetch,
-      }),
+        fetch: !isBrowser && fetch
+      })
     ]),
-    cache: new InMemoryCache().restore(initialState || {}),
+    cache: new InMemoryCache().restore(initialState || {})
   });
 }
 
