@@ -1,12 +1,12 @@
-import { Photon } from "@generated/photon";
+import { Prisma } from "./prisma/generated/prisma-client";
 
-// import { data } from "./MEDICARE_CHARGE_INPATIENT_DRGALL_DRG_Summary_FY2017/state_data"
-const photon = new Photon();
+import data from "./MEDICARE_CHARGE_INPATIENT_DRGALL_DRG_Summary_FY2017/state_data.json";
+const prisma = new Prisma();
 
-const data = [];
 // A `main` function so that we can use async/await
 export async function main() {
   // Seed the database with users and posts
+  // @ts-ignore
   data.forEach(async rec => {
     console.log(rec.procedure);
     return;
@@ -15,6 +15,4 @@ export async function main() {
 
 main()
   .catch(e => console.error(e))
-  .finally(async () => {
-    await photon.disconnect();
-  });
+  .finally(async () => {});

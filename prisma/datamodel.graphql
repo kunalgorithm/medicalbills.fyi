@@ -1,0 +1,18 @@
+type User {
+  id: ID! @id
+  name: String!
+}
+
+type Record {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  author: User
+  title: String!
+  description: String
+  state: String
+  totalDischarges: Int
+  averageCoveredCharges: Float
+  averageTotalPayments: Float
+  averageMedicarePayments: Float
+}

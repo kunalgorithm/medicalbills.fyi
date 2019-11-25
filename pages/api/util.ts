@@ -1,9 +1,9 @@
 import * as jwt from "jsonwebtoken";
-import { Photon } from "@generated/photon";
+import { Prisma } from "../../prisma/generated/prisma-client";
 import * as bcrypt from "bcryptjs";
 
 export interface Context {
-  photon: Photon;
+  prisma: Prisma;
   req: any;
 }
 
@@ -31,7 +31,7 @@ export class AuthError extends Error {
 export async function login(parent, { email, password }, ctx) {
   process.env.NODE_ENV === "development" &&
     console.log(`DEBUG: login()  ${email}`);
-  const user = await ctx.photon.users.findOne({ where: { email } });
+  const user = await ctx.prisma.users.findOne({ where: { email } });
 
   if (!user) {
     throw new Error(`No user found for email: ${email}`);
@@ -49,7 +49,7 @@ export async function login(parent, { email, password }, ctx) {
       { userId: user.id },
       process.env.APP_SECRET ? process.env.APPSECRET : "appsecret321"
     ),
-    user,
+    user
   };
 }
 
@@ -61,13 +61,11 @@ export async function signup(
   process.env.NODE_ENV === "development" &&
     console.log(`DEBUG: Signup() ${firstName} ${lastName} ${email}`);
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await ctx.photon.users.create({
-    data: {
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    },
+  const user = await ctx.prisma.createUser({
+    firstName,
+    lastName,
+    email,
+    password: hashedPassword
   });
 
   return {
@@ -75,6 +73,6 @@ export async function signup(
       { userId: user.id },
       process.env.APP_SECRET ? process.env.APPSECRET : "appsecret321"
     ),
-    user,
+    user
   };
 }

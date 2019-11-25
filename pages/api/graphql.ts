@@ -1,9 +1,10 @@
 import { ApolloServer, gql } from "apollo-server-micro";
-import { Photon } from "@generated/photon";
-import { getUserId, signup, login } from "./util";
-const data = require("../../MEDICARE_CHARGE_INPATIENT_DRGALL_DRG_Summary_FY2017/state_data.json");
-const photon = new Photon();
 
+import { getUserId, signup, login } from "./util";
+import { Prisma } from "../../prisma/generated/prisma-client";
+const data = require("../../MEDICARE_CHARGE_INPATIENT_DRGALL_DRG_Summary_FY2017/state_data.json");
+
+const prisma: Prisma = new Prisma();
 export const typeDefs = gql`
   type Query {
     users: [User!]!
@@ -40,33 +41,32 @@ const resolvers = {
   Query: {
     users(parent, args, context) {
       data.forEach(async rec => {
-        await photon.records.create({
-          data: {
-            title: rec.procedure,
-            state: rec.state,
-            totalDischarges: rec.total_discharges,
-            averageCoveredCharges: rec.avg_covered_charges,
-            averageTotalPayments: rec.avg_total_payments,
-            averageMedicarePayments: rec.avg_medicare_payments
-          }
+        await prisma.createRecord({
+          title: rec.procedure,
+          state: rec.state,
+          totalDischarges: rec.total_discharges,
+          averageCoveredCharges: rec.avg_covered_charges,
+          averageTotalPayments: rec.avg_total_payments,
+          averageMedicarePayments: rec.avg_medicare_payments
         });
       });
       return [];
     },
     records(parent, args, context) {
-      return photon.records.findMany({});
+      return prisma.records({});
     },
     me(parent, args, context) {
       const id = getUserId(context);
-      return photon.users.findOne({ where: { id } });
+      return prisma.user({ id });
     }
   },
   Mutation: {
     signup,
     login,
     createRecord(parent, args, context) {
-      return photon.records.create({
-        data: { title: args.title, description: args.description }
+      return prisma.createRecord({
+        title: args.title,
+        description: args.description
       });
     }
   }
@@ -77,7 +77,7 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: request => ({
     ...request,
-    photon
+    prisma
   })
 });
 

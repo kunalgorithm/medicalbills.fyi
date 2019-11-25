@@ -10,10 +10,10 @@
   "scripts": {
     "dev": "PORT=3000 NODE_ENV=development next",
     "build": "next build",
-    "now-build": "prisma2 generate && next build",
+    "now-build": "next build",
     "seed": "ts-node seed.ts",
     "start": "next start",
-    "generate": "prisma2 generate",
+    "generate": "prisma generate",
     "postinstall": "yarn generate",
     "lift:save": "prisma2 lift save",
     "lift:up": "prisma2 lift up"
@@ -33,7 +33,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "next": "latest",
-    "prisma2": "^2.0.0-preview016.2",
+    "prisma-client-lib": "^1.34.10",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "recharts": "^1.7.1"
