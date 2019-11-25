@@ -3,8 +3,8 @@ generator photon {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:dev.db"
+  provider = "postgresql"
+  url      = "postgresql://medicalbills:nCxU5V2rq1TYY5wRipemPdBzWyJA0le9@postgres.render.com/medicalbills"
 }
 
 model User {
