@@ -40,16 +40,16 @@ export const typeDefs = gql`
 const resolvers = {
   Query: {
     users(parent, args, context) {
-      data.forEach(async rec => {
-        await prisma.createRecord({
-          title: rec.procedure,
-          state: rec.state,
-          totalDischarges: rec.total_discharges,
-          averageCoveredCharges: rec.avg_covered_charges,
-          averageTotalPayments: rec.avg_total_payments,
-          averageMedicarePayments: rec.avg_medicare_payments
-        });
-      });
+      // data.forEach(async rec => {
+      //   await prisma.createRecord({
+      //     title: rec.procedure,
+      //     state: rec.state,
+      //     totalDischarges: rec.total_discharges,
+      //     averageCoveredCharges: rec.avg_covered_charges,
+      //     averageTotalPayments: rec.avg_total_payments,
+      //     averageMedicarePayments: rec.avg_medicare_payments
+      //   });
+      // });
       return [];
     },
     records(parent, args, context) {

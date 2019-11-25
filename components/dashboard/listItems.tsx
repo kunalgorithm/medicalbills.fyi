@@ -19,7 +19,7 @@ const links = [
   },
   {
     title: "Dashboard",
-    href: "/app",
+    href: "/",
     icon: <DashboardIcon />
   },
   {
