@@ -35,12 +35,6 @@ function Records({ search }: { search: string }) {
     <Container component="main">
       <Grid>
         <Orders records={data.records} />
-        {data.records.map(record => (
-          <div key={record.id}>
-            <h2>{record.title}</h2>
-            <p>{record.description}</p>
-          </div>
-        ))}
       </Grid>
     </Container>
   ) : null;
