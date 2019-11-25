@@ -14,7 +14,7 @@ pg.connect();
 export const typeDefs = gql`
   type Query {
     users: [User!]!
-    records: [Record!]!
+    records(search: String): [Record!]!
     me: User
   }
   type Mutation {
@@ -29,6 +29,11 @@ export const typeDefs = gql`
     id: String
     title: String
     description: String
+    state: String
+    total_discharges: Int
+    avg_covered_charges: Float
+    avg_total_payments: Float
+    avg_medicare_payments: Float
   }
   type AuthPayload {
     token: String!
@@ -42,14 +47,20 @@ const resolvers = {
       return [];
     },
     records: async function records(parent, args, context) {
+      let res = { rows: [] };
       try {
-        const res = await context.pg.query(`SELECT * from records LIMIT 100;`);
-        // console.log(res);
-        return res.rows;
+        if (args.search) {
+          console.log(`🏹 records search='${args.search}' `);
+          res = await context.pg.query(
+            `SELECT * from records WHERE title ILIKE '%${args.search}%' LIMIT 100;`
+          );
+        } else {
+          res = await context.pg.query(`SELECT * from records LIMIT 100;`);
+        }
       } catch (error) {
         console.log(error);
-        return [];
       }
+      return res.rows;
     },
     me(parent, args, context) {
       const id = getUserId(context);

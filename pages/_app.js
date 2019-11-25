@@ -20,7 +20,7 @@ class MyApp extends App {
     return (
       <>
         <Head>
-          <title>👨‍⚕️Medical Bills FYI</title>
+          <title>Medical Bills FYI</title>
         </Head>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

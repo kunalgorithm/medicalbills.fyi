@@ -45,26 +45,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      user {
-        email
-      }
-      token
-    }
-  }
-`;
-
 function SearchBar() {
   const classes = useStyles(theme);
 
-  const [email, setEmail] = useState("");
+  const [search, setSearch] = useState("");
 
-  const [loginMutation, { error, client }] = useMutation(LOGIN_MUTATION);
   return (
-    <Container component="main" maxWidth="xs">
-      {error && <Snackbar message="This doesnt work yet 🙁" />}
+    <Container component="main">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -72,34 +59,23 @@ function SearchBar() {
         <Typography component="h1" variant="h5">
           Search For Medical Procedures
         </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={e => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            loginMutation({ variables: { email, password: null } })
-              .then(result => loginUser(result.data.login.token, client))
-              .catch(err => console.error(err));
-          }}
-        >
+        <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
+            id="search"
             label="Medical Procedure"
-            name="email"
-            autoComplete="email"
+            name="search"
+            autoComplete="search"
             autoFocus
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
           />
         </form>
       </div>
-      <Records />
+      <Records search={search} />
     </Container>
   );
 }

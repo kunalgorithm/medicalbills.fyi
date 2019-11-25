@@ -11,92 +11,45 @@ import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
 import theme from "../theme";
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    "16 Mar, 2019",
-    "Elvis Presley",
-    "Tupelo, MS",
-    "VISA ⠀•••• 3719",
-    312.44
-  ),
-  createData(
-    1,
-    "16 Mar, 2019",
-    "Paul McCartney",
-    "London, UK",
-    "VISA ⠀•••• 2574",
-    866.99
-  ),
-  createData(
-    2,
-    "16 Mar, 2019",
-    "Tom Scholz",
-    "Boston, MA",
-    "MC ⠀•••• 1253",
-    100.81
-  ),
-  createData(
-    3,
-    "16 Mar, 2019",
-    "Michael Jackson",
-    "Gary, IN",
-    "AMEX ⠀•••• 2000",
-    654.39
-  ),
-  createData(
-    4,
-    "15 Mar, 2019",
-    "Bruce Springsteen",
-    "Long Branch, NJ",
-    "VISA ⠀•••• 5919",
-    212.79
-  ),
-];
-
 const useStyles = makeStyles(theme => ({
   seeMore: {
-    marginTop: theme.spacing(3),
-  },
+    marginTop: theme.spacing(3)
+  }
 }));
 
-export default function Orders() {
+export default function Orders({ records }) {
   const classes = useStyles(theme);
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
-      <Table size="small">
+      <Table size="medium">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Procedure</TableCell>
+            <TableCell>State</TableCell>
+            <TableCell>Total Discharges</TableCell>
+            <TableCell>Average Covered Charges</TableCell>
+            <TableCell>Average Total Payments</TableCell>
+            <TableCell align="right">Average Medicare Payments</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {records.map(row => (
             <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell>{row.title}</TableCell>
+              <TableCell>{row.state}</TableCell>
+              <TableCell>{row.total_discharges}</TableCell>
+              <TableCell>{row.avg_covered_charges}</TableCell>
+              <TableCell>{row.avg_total_payments}</TableCell>
+              <TableCell align="right">{row.avg_medicare_payments}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="/app">
+      {/* <div className={classes.seeMore}>
+        <Link color="primary" href="/">
           See more orders
         </Link>
-      </div>
+      </div> */}
     </React.Fragment>
   );
 }
