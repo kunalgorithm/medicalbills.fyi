@@ -7,6 +7,7 @@ const pg = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true
 });
+pg.connect();
 
 const prisma: Prisma = new Prisma();
 export const typeDefs = gql`
@@ -48,7 +49,6 @@ const resolvers = {
     },
     records: async function records(parent, args, context) {
       try {
-        await context.pg.connect();
         const res = await context.pg.query(`SELECT * from records LIMIT 100;`);
         // console.log(res);
         return res.rows;
