@@ -2,7 +2,11 @@ import { ApolloServer, gql } from "apollo-server-micro";
 
 import { getUserId, signup, login } from "./util";
 import { Prisma } from "../../prisma/generated/prisma-client";
-const data = require("../../MEDICARE_CHARGE_INPATIENT_DRGALL_DRG_Summary_FY2017/state_data.json");
+const { Client } = require("pg");
+const pg = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
 
 const prisma: Prisma = new Prisma();
 export const typeDefs = gql`
@@ -40,20 +44,18 @@ export const typeDefs = gql`
 const resolvers = {
   Query: {
     users(parent, args, context) {
-      // data.forEach(async rec => {
-      //   await prisma.createRecord({
-      //     title: rec.procedure,
-      //     state: rec.state,
-      //     totalDischarges: rec.total_discharges,
-      //     averageCoveredCharges: rec.avg_covered_charges,
-      //     averageTotalPayments: rec.avg_total_payments,
-      //     averageMedicarePayments: rec.avg_medicare_payments
-      //   });
-      // });
       return [];
     },
-    records(parent, args, context) {
-      return prisma.records({});
+    records: async function records(parent, args, context) {
+      try {
+        await context.pg.connect();
+        const res = await context.pg.query(`SELECT * from records LIMIT 100;`);
+        // console.log(res);
+        return res.rows;
+      } catch (error) {
+        console.log(error);
+        return [];
+      }
     },
     me(parent, args, context) {
       const id = getUserId(context);
@@ -77,7 +79,8 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: request => ({
     ...request,
-    prisma
+    prisma,
+    pg
   })
 });
 
