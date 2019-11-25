@@ -1,7 +1,9 @@
 import { ApolloServer, gql } from "apollo-server-micro";
 
-import { getUserId, signup, login } from "./util";
-import { Prisma } from "../../prisma/generated/prisma-client";
+import { getUserId } from "./util";
+
+process.env.NODE_ENV === "development" && require("dotenv").config();
+
 const { Client } = require("pg");
 const pg = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -9,7 +11,6 @@ const pg = new Client({
 });
 pg.connect();
 
-const prisma: Prisma = new Prisma();
 export const typeDefs = gql`
   type Query {
     users: [User!]!
@@ -17,13 +18,6 @@ export const typeDefs = gql`
     me: User
   }
   type Mutation {
-    signup(
-      email: String!
-      password: String!
-      firstName: String!
-      lastName: String!
-    ): AuthPayload!
-    login(email: String!, password: String!): AuthPayload!
     createRecord(title: String!, description: String!): Record!
   }
   type User {
@@ -59,17 +53,13 @@ const resolvers = {
     },
     me(parent, args, context) {
       const id = getUserId(context);
-      return prisma.user({ id });
+      return {};
     }
   },
   Mutation: {
-    signup,
-    login,
     createRecord(parent, args, context) {
-      return prisma.createRecord({
-        title: args.title,
-        description: args.description
-      });
+      const res = context.pg.query(`INSERT INTO records ...`); //tODO
+      return { title: args.title, description: args.description };
     }
   }
 };
@@ -79,7 +69,7 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: request => ({
     ...request,
-    prisma,
+
     pg
   })
 });

@@ -1,9 +1,9 @@
 import * as jwt from "jsonwebtoken";
-import { Prisma } from "../../prisma/generated/prisma-client";
+
 import * as bcrypt from "bcryptjs";
 
 export interface Context {
-  prisma: Prisma;
+  // prisma: Prisma;
   req: any;
 }
 
@@ -26,53 +26,4 @@ export class AuthError extends Error {
   constructor() {
     super("Not authorized");
   }
-}
-
-export async function login(parent, { email, password }, ctx) {
-  process.env.NODE_ENV === "development" &&
-    console.log(`DEBUG: login()  ${email}`);
-  const user = await ctx.prisma.users.findOne({ where: { email } });
-
-  if (!user) {
-    throw new Error(`No user found for email: ${email}`);
-  }
-
-  const passwordValid = await bcrypt.compare(
-    password,
-    user.password || "password"
-  );
-  if (!passwordValid) {
-    throw new Error("Invalid password");
-  }
-  return {
-    token: jwt.sign(
-      { userId: user.id },
-      process.env.APP_SECRET ? process.env.APPSECRET : "appsecret321"
-    ),
-    user
-  };
-}
-
-export async function signup(
-  parent,
-  { firstName, lastName, email, password },
-  ctx
-) {
-  process.env.NODE_ENV === "development" &&
-    console.log(`DEBUG: Signup() ${firstName} ${lastName} ${email}`);
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await ctx.prisma.createUser({
-    firstName,
-    lastName,
-    email,
-    password: hashedPassword
-  });
-
-  return {
-    token: jwt.sign(
-      { userId: user.id },
-      process.env.APP_SECRET ? process.env.APPSECRET : "appsecret321"
-    ),
-    user
-  };
 }
