@@ -139,7 +139,7 @@ datasource db {
 Before shipping your app, consider creating a MySQL database on [AWS](https://aws.amazon.com) or other managed database provider. Prisma2 also supports Postgres and MongoDB, but the majority of their examples use MySQL, leading me to suspect it may be a more thoroughly tested integration.
 
 Once created, change the datastore value to
-
+test
 ```
 datasource db {
   provider = "mysql"
